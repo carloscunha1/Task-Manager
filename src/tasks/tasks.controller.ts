@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -14,7 +14,7 @@ export class TasksController {
   }
 
   @Get(":id")
-  findOneTask(@Param('id') id: string) {
+  findOneTask(@Param('id', ParseIntPipe)  id: number) { //O parseintpipe ja transforma o number (caso seja somente um numero) da rota em número para que a func possa receber
     return this.taskService.findOne(id)
   }
 
@@ -25,12 +25,12 @@ export class TasksController {
   }
 
   @Patch(":id")
-  updateTask(@Param("id") id: string, @Body() updateTaskDto: UpdateTaskDto) {
+  updateTask(@Param("id", ParseIntPipe) id: number, @Body() updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(id, updateTaskDto)
   }
 
   @Delete(":id")
-  deleteTask(@Param("id") id: string) {
+  deleteTask(@Param("id", ParseIntPipe) id: number) {
     return this.taskService.delete(id)
 
   }
