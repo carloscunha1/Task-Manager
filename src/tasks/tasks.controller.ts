@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -9,8 +10,8 @@ export class TasksController {
   constructor(private readonly taskService: TasksService) { }
 
   @Get()
-  findAllTasks() {
-    return this.taskService.findAll()
+  findAllTasks(@Query() paginationDto: PaginationDto) {
+    return this.taskService.findAll(paginationDto)
   }
 
   @Get(":id")
